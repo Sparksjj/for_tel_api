@@ -15,10 +15,14 @@ class CreateRegisterAttemptsTable extends Migration
     {
         Schema::create('register_attempts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('phone', 20)->unique();
+            $table->string('phone', 20);
             $table->string('activation_code', 10);
-            $table->boolean('is_attempt_success')->default(false);
+            $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->index('phone');
+
         });
     }
 
